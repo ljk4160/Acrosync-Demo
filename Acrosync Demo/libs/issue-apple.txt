@@ -1,0 +1,17 @@
+diff -ruN gnulib.orig/lib/unistd.in.h gnulib/lib/unistd.in.h
+--- gnulib.orig/lib/unistd.in.h	2014-11-06 14:52:50.973180715 +0100
++++ gnulib/lib/unistd.in.h	2014-11-06 14:54:20.485231338 +0100
+@@ -401,6 +401,13 @@
+ /* Set of environment variables and values.  An array of strings of the form
+    "VARIABLE=VALUE", terminated with a NULL.  */
+ #  if defined __APPLE__ && defined __MACH__
++#   include "TargetConditionals.h"
++#   if !defined(TARGET_OS_IPHONE) && !defined(TARGET_IPHONE_SIMULATOR)
++#     define APPLE_USE_CRT_EXTERNS
++#   endif
++#  endif
++#
++#  ifdef APPLE_USE_CRT_EXTERNS
+ #   include <crt_externs.h>
+ #   define environ (*_NSGetEnviron ())
+ #  else
